@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    <h4 class="grey-text text-darken-2 center">Admin Management</h4>
+    <h4 class="grey-text text-darken-2 center">User Management</h4>
     
     {{-- Search --}}
     <div class="row mb-0">
@@ -9,7 +9,7 @@
             <li>
                 <div class="collapsible-header">
                     <i class="material-icons">search</i>
-                    Search Admin
+                    Search User
                 </div>
                 <div class="collapsible-body">
                     <div class="row mb-0">
@@ -17,7 +17,7 @@
                             @csrf()
                             <div class="input-field col s12 m6 l5 xl6">
                                 <input id="search" type="text" name="search" >
-                                <label for="search">Search Admin</label>
+                                <label for="search">Search User</label>
                                 <span class="{{$errors->has('search') ? 'helper-text red-text' : '' }}">{{$errors->has('search') ? $errors->first('search') : '' }}</span>
                             </div>
                             <div class="input-field col s12 m6 l4 xl4">
@@ -40,12 +40,12 @@
     {{-- Search END --}}
     
     <div class="row">
-        <!-- Show All Admins List as a Card -->
+        <!-- Show All Users List as a Card -->
         <div class="card col s12 m12 l12 xl12">
             <div class="card-content">
                 <div class="row">
-                    <h5 class="pl-15 grey-text text-darken-2">Admins List</h5>
-                    <!-- Table that shows Admins List -->
+                    <h5 class="pl-15 grey-text text-darken-2">Users List</h5>
+                    <!-- Table that shows Users List -->
                     <table class="responsive-table col s12 m12 l12 xl12">
                         <thead class="grey-text text-darken-2">
                             <tr>
@@ -85,9 +85,9 @@
                                     </tr>
                                 @endforeach
                                 @else
-                                    {{-- if there are no admins then show this message --}}
+                                    {{-- if there are no Users then show this message --}}
                                     <tr>
-                                        <td colspan="5"><h6 class="grey-text text-darken-2 center">No Admins Found!</h6></td>
+                                        <td colspan="5"><h6 class="grey-text text-darken-2 center">No Users Found!</h6></td>
                                     </tr>
                                 @endif
                                 {{-- If we are searching then show this link --}}
@@ -100,7 +100,7 @@
                                 @endif
                         </tbody>
                     </table>
-                    <!-- Admins Table END -->
+                    <!-- Users Table END -->
                 </div>
                 <!-- Show Pagination Links -->
                 <div class="center">
@@ -113,7 +113,7 @@
 </div>
 
 
-<!-- This is the button that is located at the right bottom, that navigates us to admins.create view -->
+<!-- This is the button that is located at the right bottom, that navigates us to Users.create view -->
 <div class="fixed-action-btn">
     <a class="btn-floating btn-large waves=effect waves-light red" href="{{route('admins.create')}}">
         <i class="large material-icons">add</i>

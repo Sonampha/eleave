@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Admin;
+use App\TblUsersProfile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,7 +41,11 @@ class AdminsController extends Controller
      */
     public function create()
     {
-        return view('admin.create');
+        $tbl_users_profile = TblUsersProfile::all();
+        return view('admin.create')
+            ->with([
+                'tbl_users_profile'    =>  $tbl_users_profile
+            ]);
     }
 
     /**
@@ -67,7 +72,12 @@ class AdminsController extends Controller
     public function edit($id)
     {
         $admin = Admin::find($id);
-        return view('admin.edit')->with('admin',$admin);
+        $tbl_users_profile = TblUsersProfile::all();
+        return view('admin.edit')
+            ->with([
+                'admin' => $admin,
+                'tbl_users_profile'    =>  $tbl_users_profile
+            ]);
     }
 
     /**
@@ -147,6 +157,7 @@ class AdminsController extends Controller
         $this->validate($request,[
             'first_name'   =>  'required|min:1',
             'last_name'    =>  'required|min:1',
+            'user_type'    =>  'required|min:1',
             //if we are updating admin but not changing password.
             'password'     =>  ''.( $id ? 'nullable|min:3' : 'required|min:3' ),
             'username'     =>  'required|unique:admins,username,'.($id ? : '' ).'|min:3',
@@ -162,6 +173,7 @@ class AdminsController extends Controller
         $admin->first_name = $request->input('first_name');
         $admin->last_name = $request->input('last_name');
         $admin->username = $request->input('username');
+        $admin->user_type = $request->input('user_type');
         $admin->email = $request->input('email');
         if($request->input('password') != NULL){
             $admin->password = $request->input('password');

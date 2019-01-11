@@ -1,7 +1,7 @@
 <footer class="page-footer gradient-bg">
     <div class="footer-copyright">
         <div class="container">
-            © 2018 Copyright DHL Company in Cambodia
+            © 2019 Copyright DHL Express (Cambodia) Ltd
         </div>
     </div>
 </footer>

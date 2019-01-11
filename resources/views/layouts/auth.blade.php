@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{asset('css/materialize.css')}}">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>Employee Management System</title>
+    <title>Leave Management System</title>
 </head>
 <body class="grey lighten-4">
     <main class="pl-0 main-login">
@@ -16,7 +16,7 @@
     <footer class="page-footer gradient-bg pl-0">
         <div class="footer-copyright">
             <div class="container">
-                © 2018 Copyright DHL Company in Cambodia 
+                © 2019 Copyright DHL Express (Cambodia) Ltd 
             </div>
         </div>
     </footer>

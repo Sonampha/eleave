@@ -142,22 +142,45 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                    <input id="status" type="text" value="day(s)" disabled>
-                    <label for="status">Status</label>
+                        <p>
+                          <i class = "material-icons prefix">star_half</i>
+                          <label>
+                            <input class="with-gap" name="daytype" type="radio" checked />
+                            <span>Full Day</span>
+                          </label>
+                        </p>
+                        <p>
+                          <i class = "material-icons prefix">star_half</i>
+                          <label>
+                            <input class="with-gap" name="daytype" type="radio" />
+                            <span>AM</span>
+                          </label>
+                        </p>
+                        <p>
+                          <i class = "material-icons prefix">star_half</i>
+                          <label>
+                            <input class="with-gap" name="daytype" type="radio"  />
+                            <span>PM</span>
+                          </label>
+                        </p>
                     </div>
-                </div>
-                <div class="row">
                     <div class="input-field col s6">
-                    <input id="leave-applied" type="text" value="Pending for submission" disabled>
-                    <label for="leave-applied">Leave Applied</label>
+                        <div>
+                            <label for="leave-applied">Leave Applied</label>                        
+                            <input id="leave-applied" type="text" value="Pending for submission" disabled>
+                             
+                        </div>
+                        <div>
+                            <label for="status">Status</label>
+                            <input id="status" type="text" value="day(s)" disabled>
+                        </div>
+                        <div>
+                            <label for="new-balance">New Balance</label>
+                            <input id="new-balance" type="text" value="day(s)" disabled>               
+                        </div>               
                     </div>
                 </div>
-                <div class="row">
-                    <div class="input-field col s6">
-                    <input id="new-balance" type="text" value="day(s)" disabled>
-                    <label for="new-balance">New Balance</label>
-                    </div>
-                </div>
+
                 <a href="/" class="waves-effect waves-light btn-large"><i class="material-icons right">cancel</i>Cancel</a>
                 <a class="waves-effect waves-light btn-large"><i class="material-icons right">send</i>Submit</a>
                 </form>

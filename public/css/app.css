@@ -1,6 +1,10 @@
 .gradient-bg{
     /*background:linear-gradient(to left,#0097A7 30%,#00ACC1,#00BCD4) !important;*/
-    background:linear-gradient(to left,#00838F,#0097A7,#00BCD4);
+    /*background:linear-gradient(to left,#00838F,#0097A7,#00BCD4);*/
+    background: linear-gradient(to bottom,#FFCC00,#FFDB4C,#FFE88C,#FFF5CC,rgba(255, 255, 255, 0.1));
+}
+.gradient-to-right{
+    background: linear-gradient(to bottom,#FFCC00,#FFDB4C,#FFE88C,#FFF5CC,rgba(255, 245, 204, 0.5),rgba(255, 255, 255, 0.1));
 }
 
 /* this is for sideNav that shows on large screens */
@@ -89,7 +93,7 @@ header, main, footer {
 
 .emp-img-big{
     height: 180px;
-    width:100%;
+    width:auto;
 }
 
 .card-title{

@@ -4,7 +4,7 @@
         <div class="row">
             <div class="card col s12 m12 l12 xl12 mt-20">
                 <div>
-                <h4 class="center grey-text text-darken-2 card-title">Update Admin</h4>
+                <h4 class="center grey-text text-darken-2 card-title">Update User</h4>
                 </div>
                 <hr>
                 <div class="card-content">
@@ -20,7 +20,7 @@
                                 <i class="material-icons prefix">person_outline</i>
                                 <input type="text" name="last_name" id="last_name" value="{{Request::old('last_name') ? : $admin->last_name }}">
                                 <label for="last_name">Last Name</label>
-                                <span class="{{$errors->has('first_name') ? 'helper-text red-text' : ''}}">{{$errors->first('first_name')}}</span>
+                                <span class="{{$errors->has('last_name') ? 'helper-text red-text' : ''}}">{{$errors->first('last_name')}}</span>
                             </div>
                             <div class="input-field col s12 m8 offset-m2 l8 offset-l2 xl8 offset-xl2">
                                 <i class="material-icons prefix">person</i>
@@ -39,6 +39,17 @@
                                 <input type="email" name="email" id="email" value="{{Request::old('email') ? : $admin->email }}">
                                 <label for="email">Email</label>
                                 <span class="{{$errors->has('email') ? 'helper-text red-text' : ''}}">{{$errors->has('email') ? $errors->first('email') : ''}}</span>
+                            </div>
+                            <div class="input-field col s12 m8 offset-m2 l8 offset-l2 xl8 offset-xl2">
+                                <i class="material-icons prefix">vpn_key</i>
+                                <select name="user_type" class="validate" required>              
+                                    @foreach($tbl_users_profile as $user_type)
+                                    <option {{($admin->user_type == $user_type->USER_RIGHT) ? 'selected':''}} value="{{ $user_type->USER_RIGHT }}">
+                                        {{ $user_type->USER_RIGHT }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                <label>User Type</label>
                             </div>
                             <div class="file-field input-field col s12 m8 offset-m2 l8 offset-l2 xl8 offset-xl2">
                                 <div class="btn">
@@ -59,10 +70,7 @@
                     </form>
                 </div>
                 <div class="card-action">
-                    <a href="/admins">
-                    <div style="display: inline-block"><i class="material-icons prefix">keyboard_backspace</i></div>
-                    <div style="display: inline-block">Go Back</div>
-                    </a>
+                    <a href="/admin">Go Back</a>
                 </div>
             </div>
         </div>

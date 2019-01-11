@@ -5,13 +5,13 @@
                 <a href="{{route('dashboard')}}" class="brand-logo hide-on-small-only">E-Leave Form</a>
                 <a href="{{route('dashboard')}}" class="brand-logo show-on-small-only hide-on-med-and-up">E-Leave</a>
                 <ul>
-                    <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons white-text">menu</i></a>
+                    <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons black-text">menu</i></a>
                 </ul>
                 <ul class="right">
                     <li>
                         <a class="dropdown-trigger" href="#!" data-target="dropdown1">
                             {{ Auth::user()->username }}
-                            <i class="material-icons right white-text">arrow_drop_down</i>
+                            <i class="material-icons right black-text">arrow_drop_down</i>
                         </a>
                     </li>
                 </ul>

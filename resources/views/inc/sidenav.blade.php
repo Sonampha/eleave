@@ -1,14 +1,15 @@
 <ul id="slide-out" class="sidenav sidenav-fixed grey lighten-4">
-    <li>
+    <li class="gradient-to-right">
+        <div>
+            <img src="{{asset('storage/logo/dhl_express_logo_transparent.png')}}" style="margin-left:10px;">
+        </div>
         <div class="user-view">
-            <div class="background">
-            </div>
             {{-- Get picture of authenicated user --}}
             <a href="{{route('auth.show')}}"><img class="circle" src="{{asset('storage/admins/'.Auth::user()->picture)}}"></a>
             {{-- Get first and last name of authenicated user --}}
-            <a href="{{route('auth.show')}}"><span class="white-text name">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span></a>
+            <a href="{{route('auth.show')}}"><span class="black-text name">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span></a>
             {{-- Get email of authenicated user --}}
-            <a href="{{route('auth.show')}}"><span class="white-text email">{{ Auth::user()->email }}</span></a>
+            <a href="{{route('auth.show')}}"><span class="black-text email">{{ Auth::user()->email }}</span></a>
         </div>
     </li>
     <li>
@@ -19,11 +20,7 @@
     </li>
     <li>
         <a class="waves-effect waves-grey" href="/#"><i class="material-icons">today</i>Holiday</a>
-    </li>
-    <li>
-        <a class="waves-effect waves-grey" href="/#"><i class="material-icons">lock</i>Change Password</a>
-    </li>
-   
+    </li>  
     <li>
         <a class="waves-effect waves-grey" href="/employees"><i class="material-icons">supervisor_account</i>Employee List</a>
     </li>

@@ -2632,7 +2632,7 @@ a {
 }
 
 /* 2dp elevation modified*/
-.z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-small, .btn-floating, .dropdown-content, .collapsible, .sidenav {
+.z-depth-1, .card-panel, .card, .toast, .btn, .btn-large, .btn-small, .btn-floating, .dropdown-content, .collapsible, .sidenav {
   -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
           box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
 }
@@ -2944,7 +2944,7 @@ ul.staggered-list li {
 }
 
 .page-footer {
-  padding-top: 20px;
+  /*padding-top: 20px;*/
   color: #fff;
   background-color: #ee6e73;
 }
@@ -2965,7 +2965,7 @@ ul.staggered-list li {
       -ms-flex-pack: justify;
           justify-content: space-between;
   padding: 10px 0px;
-  color: rgba(255, 255, 255, 0.8);
+  color: #000;
   background-color: rgba(51, 51, 51, 0.08);
 }
 
@@ -4332,7 +4332,7 @@ nav .sidenav-trigger i {
 
 nav .brand-logo {
   position: absolute;
-  color: #fff;
+  color: #D40511;
   display: inline-block;
   font-size: 2.1rem;
   padding: 0;
@@ -4401,7 +4401,7 @@ nav ul a {
   -webkit-transition: background-color .3s;
   transition: background-color .3s;
   font-size: 1rem;
-  color: #fff;
+  color: #000;
   display: block;
   padding: 0 15px;
   cursor: pointer;
@@ -5249,7 +5249,7 @@ small {
 .btn, .btn-large, .btn-small {
   text-decoration: none;
   color: #fff;
-  background-color: #26a69a;
+  background-color: #FFCC00;
   text-align: center;
   letter-spacing: .5px;
   -webkit-transition: background-color .2s ease-out;
@@ -5258,7 +5258,7 @@ small {
 }
 
 .btn:hover, .btn-large:hover, .btn-small:hover {
-  background-color: #2bbbad;
+  background-color: #D40511;
 }
 
 .btn-floating {
@@ -5584,7 +5584,8 @@ button.btn-floating {
 
 .dropdown-content li > a, .dropdown-content li > span {
   font-size: 16px;
-  color: #26a69a;
+  /*color: #26a69a;*/
+  color: #000;
   display: block;
   line-height: 22px;
   padding: 14px 16px;
