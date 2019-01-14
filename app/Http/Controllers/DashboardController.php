@@ -10,7 +10,8 @@ use App\Country;
 use App\City;
 use App\State;
 use App\Salary;
-use App\Admin;
+//use App\Admin;
+use App\User;
 use Carbon\Carbon;
 use App\TblLeaveType;
 use DB;
@@ -50,7 +51,7 @@ class DashboardController extends Controller
         $emp_count_3 = Employee::whereBetween('join_date',[$prev_date3,$prev_date2])->count();
         $emp_count_4 = Employee::whereBetween('join_date',[$prev_date4,$prev_date3])->count();
 
-        $t_admins = Admin::all()->count();
+        $t_users = User::all()->count();
         $t_employees = Employee::all()->count();
         $t_countries = Country::all()->count();
         $t_states = State::all()->count();
@@ -75,7 +76,7 @@ class DashboardController extends Controller
                 't_salaries'      =>  $t_salaries,
                 't_divisions'     =>  $t_divisions,
                 't_departments'   =>  $t_departments,
-                't_admins'        =>  $t_admins,
+                't_users'        =>  $t_users,
                 'tbl_leave_type'  =>  $tbl_leave_type,
                 'current_date'    =>  $current_date
             ]);

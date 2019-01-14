@@ -141,7 +141,7 @@ main {
 .main-login{
     width: 100%;
     min-height: 90vh;
-    background:linear-gradient(180deg,#00838F,#00BCD4);
+    background:linear-gradient(180deg,#FFCC00,#FFDB4C,#FFE88C,#FFF5CC,rgba(255, 245, 204, 0.5),rgba(255, 255, 255, 0.1));
     background-size: cover;
 }
 /* login end */

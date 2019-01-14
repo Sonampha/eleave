@@ -70,9 +70,16 @@ Route::post('employees/search','EmployeesController@search')->name('employees.se
 /**
  *  Admins Route(s)
  */
-Route::resource('/admins','AdminsController');
-Route::post('/admins','AdminsController@search')->name('admins.search');
-Route::post('/admins/create','AdminsController@store')->name('admins.store');
+//Route::resource('/admins','AdminsController');
+//Route::post('/admins','AdminsController@search')->name('admins.search');
+//Route::post('/admins/create','AdminsController@store')->name('admins.store');
+
+/**
+ *  Users Route(s)
+ */
+Route::resource('/users','UsersController');
+Route::post('/users','UsersController@search')->name('users.search');
+Route::post('/users/create','UsersController@store')->name('users.store');
 
 /**
  *  Auth Route(s)
@@ -88,7 +95,10 @@ Route::post('/','AuthController@authenticate')->name('auth.authenticate');
 Route::get('/logout','AuthController@logout')->name('auth.logout')->middleware('auth');
 
 //show user details
-Route::get('/admin','AuthController@show')->name('auth.show')->middleware('auth');
+//Route::get('/admin','AuthController@show')->name('auth.show')->middleware('auth');
+
+//show user details
+Route::get('/user','AuthController@show')->name('auth.show')->middleware('auth');
 
 Route::get('/password/reset','ResetPassword\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 Route::post('/password/email','ResetPassword\ForgotPasswordController@sendResetLinkEmail')->name('password.email');

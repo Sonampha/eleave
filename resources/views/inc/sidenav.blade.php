@@ -5,7 +5,7 @@
         </div>
         <div class="user-view">
             {{-- Get picture of authenicated user --}}
-            <a href="{{route('auth.show')}}"><img class="circle" src="{{asset('storage/admins/'.Auth::user()->picture)}}"></a>
+            <a href="{{route('auth.show')}}"><img class="circle" src="{{asset('storage/users/'.Auth::user()->picture)}}"></a>
             {{-- Get first and last name of authenicated user --}}
             <a href="{{route('auth.show')}}"><span class="black-text name">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span></a>
             {{-- Get email of authenicated user --}}
@@ -25,7 +25,7 @@
         <a class="waves-effect waves-grey" href="/employees"><i class="material-icons">supervisor_account</i>Employee List</a>
     </li>
     <li>
-        <a href="/admins" class="waves-effect waves-grey"><i class="material-icons">account_circle</i>All Users</a>
+        <a href="/users" class="waves-effect waves-grey"><i class="material-icons">account_circle</i>All Users</a>
     </li>
     <li class="no-padding">
         <ul class="collapsible collapsible-accordion">

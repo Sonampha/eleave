@@ -3,7 +3,7 @@
 <section>
     <div class="container row">
         <div class="col m6 offset-m3 l6 offset-l3 xl4 offset-xl4 s10 offset-s1 card card-login z-depth-4">
-            <div class="card-title card-title-login gradient-bg lighten-2 white-text">
+            <div class="card-title card-title-login gradient-bg lighten-2 black-text">
                 <h5 class="center flow-text">Login to E-Leave</h5>
             </div>
             <div class="card-content">
@@ -30,7 +30,7 @@
                     <a href="{{route('password.request')}}" class="right">Forgot Password</a>
                     <br>
                     <div class="card-action">
-                        <button class="btn col s12 m12 l12 xl12 waves-effect waves-light gradient-bg" type="submit" name="submit">Login</button>
+                        <button class="btn col s12 m12 l12 xl12" type="submit" name="submit">Login</button>
                     </div>
                     <br>
                 </form>
