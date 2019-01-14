@@ -30,7 +30,7 @@ class UsersController extends Controller
          *  on what's going on here.
          */
         
-        $users = User::Paginate(4);
+        $users = User::Paginate(15);
         return view('user.index')->with('users',$users);
     }
 

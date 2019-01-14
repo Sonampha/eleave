@@ -20,7 +20,8 @@
     </li>
     <li>
         <a class="waves-effect waves-grey" href="/#"><i class="material-icons">today</i>Holiday</a>
-    </li>  
+    </li>
+    @if(Auth::user()->user_type !== "USER")  
     <li>
         <a class="waves-effect waves-grey" href="/employees"><i class="material-icons">supervisor_account</i>Employee List</a>
     </li>
@@ -80,4 +81,5 @@
             </li>
         </ul>
     </li>
+    @endif
 </ul>
