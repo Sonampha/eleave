@@ -44,6 +44,20 @@ class Employee extends Model
     /**
      * @return object
      */
+    public function empFunctional(){
+        return $this->belongsTo('App\Functional','functional_id');
+    }
+
+    /**
+     * @return object
+     */
+    public function empNationality(){
+        return $this->belongsTo('App\Nationality','nationality_id');
+    }
+
+    /**
+     * @return object
+     */
     public function empCountry(){
         return $this->belongsTo('App\Country','country_id');
     }
@@ -65,8 +79,29 @@ class Employee extends Model
     /**
      * @return object
      */
+    public function empJobTitle(){
+        return $this->belongsTo('App\JobTitle','job_title_id');
+    }
+
+    /**
+     * @return object
+     */
+    public function empReportingManager(){
+        return $this->belongsTo('App\ReportingManager','reporting_manager_id');
+    }
+
+    /**
+     * @return object
+     */
     public function empSalary(){
         return $this->belongsTo('App\Salary','salary_id');
+    }
+
+    /**
+     * @return object
+     */
+    public function empLocation(){
+        return $this->belongsTo('App\Location','location_id');
     }
 
     /**

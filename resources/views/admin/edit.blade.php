@@ -43,9 +43,9 @@
                             <div class="input-field col s12 m8 offset-m2 l8 offset-l2 xl8 offset-xl2">
                                 <i class="material-icons prefix">vpn_key</i>
                                 <select name="user_type" class="validate" required>              
-                                    @foreach($tbl_users_profile as $user_type)
-                                    <option {{($admin->user_type == $user_type->USER_RIGHT) ? 'selected':''}} value="{{ $user_type->USER_RIGHT }}">
-                                        {{ $user_type->USER_RIGHT }}
+                                    @foreach($user_types as $user_type)
+                                    <option {{($admin->user_type == $user_type->user_type) ? 'selected':''}} value="{{ $user_type->user_type }}">
+                                        {{ $user_type->user_type }}
                                     </option>
                                     @endforeach
                                 </select>

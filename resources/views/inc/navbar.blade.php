@@ -2,8 +2,8 @@
     <nav class="gradient-bg">
         <div class="container">
             <div class="nav-wrapper">
-                <a href="{{route('dashboard')}}" class="brand-logo hide-on-small-only">E-Leave Form</a>
-                <a href="{{route('dashboard')}}" class="brand-logo show-on-small-only hide-on-med-and-up">E-Leave</a>
+                <a href="{{route('dashboard')}}" class="brand-logo hide-on-small-only">HR Management System - Leave</a>
+                <a href="{{route('dashboard')}}" class="brand-logo show-on-small-only hide-on-med-and-up">HR Management System - Leave</a>
                 <ul>
                     <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons black-text">menu</i></a>
                 </ul>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-use App\TblUsersProfile;
+use App\UserType;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,7 +30,7 @@ class UsersController extends Controller
          *  on what's going on here.
          */
         
-        $users = User::Paginate(15);
+        $users = User::Paginate(20);
         return view('user.index')->with('users',$users);
     }
 
@@ -41,10 +41,10 @@ class UsersController extends Controller
      */
     public function create()
     {
-        $tbl_users_profile = TblUsersProfile::all();
+        $user_types = UserType::all();
         return view('user.create')
             ->with([
-                'tbl_users_profile'    =>  $tbl_users_profile
+                'user_types'    =>  $user_types
             ]);
     }
 
@@ -72,11 +72,11 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $tbl_users_profile = TblUsersProfile::all();
+        $user_types = UserType::all();
         return view('user.edit')
             ->with([
                 'user' => $user,
-                'tbl_users_profile'    =>  $tbl_users_profile
+                'user_types'    =>  $user_types
             ]);
     }
 
@@ -94,15 +94,24 @@ class UsersController extends Controller
         $user = User::find($id);
         
         if($request->hasFile('picture')){
-
-            $fileNameToStore = $this->handleImageUpload($request);
-            Storage::delete('public/users/'.$user->picture);
+            Storage::delete(public_path().'uploads/users/'.$user->picture);
+            $fileNameToStore = $this->handleImageUpload($request);     
         }else{
-            $fileNameToStore = '';
+            if($id){
+                $fileNameToStore = $user->picture;
+            }else{
+                $fileNameToStore = '';
+            }
+            
         }
         
         $this->setUser($request, $user ,$fileNameToStore);
-        return redirect('/user')->with('info','selected user has been updated');
+
+        if($user->username == Auth::user()->username){
+            return redirect('/user')->with('info','selected user has been updated');
+        }else{
+            return redirect()->back()->with('info','selected user has been updated');
+        }
     }
 
     /**
@@ -125,7 +134,7 @@ class UsersController extends Controller
         $user = User::find($id);
 
         //delete the user picture
-        Storage::delete('public/users/'.$user->picture);
+        Storage::delete('uploads/users/'.$user->picture);
         $user->delete();
         return redirect('/users')->with('info','selected user has been deleted!');
     }
@@ -145,7 +154,7 @@ class UsersController extends Controller
         $option = $request->input('options');
         $users = User::where( $option , 'LIKE' , '%'.$str.'%' )
             ->orderBy($option,'asc')
-            ->paginate(4);
+            ->paginate(20);
         return view('user.index')->with([ 'users' => $users ,'search' => true ]);
     }
 
@@ -155,13 +164,11 @@ class UsersController extends Controller
     private function validateRequest(Request $request, $id)
     {
         $this->validate($request,[
-            'first_name'   =>  'required|min:1',
-            'last_name'    =>  'required|min:1',
-            'user_type'    =>  'required|min:1',
+			'full_name'    =>  'required|min:1',
             //if we are updating user but not changing password.
             'password'     =>  ''.( $id ? 'nullable|min:3' : 'required|min:3' ),
-            'username'     =>  'required|unique:users,username,'.($id ? : '' ).'|min:3',
-            'email'        =>  'required|email|unique:users,email,'.($id ? : '' ).'|min:7',
+            'staff_id'     =>  'required|unique:users,username,'.($id ? : '' ).'|min:3',
+            'email'        =>  'required|email',
             'picture'      =>  ''.($request->hasFile('picture')  ? 'required|image|max:1999' : '')
         ]);
     }
@@ -170,17 +177,21 @@ class UsersController extends Controller
      * Add or update an user
      */
     private function setUser(Request $request , User $user , $fileNameToStore){
-        $user->first_name = $request->input('first_name');
-        $user->last_name = $request->input('last_name');
-        $user->username = $request->input('username');
-        $user->user_type = $request->input('user_type');
+        $user->full_name = $request->input('full_name');
+        $user->username = $request->input('staff_id');
+        if(Auth::user()->user_type == 'ADMIN'){
+            $user->user_type = $request->input('user_type');
+        }        
         $user->email = $request->input('email');
         if($request->input('password') != NULL){
             $user->password = $request->input('password');
         }
-        if($request->hasFile('picture')){
+        if($fileNameToStore != ''){
             $user->picture = $fileNameToStore;
+        }else{
+            $user->picture = 'user.png';
         }
+
         $user->save();
     }
 
@@ -188,6 +199,9 @@ class UsersController extends Controller
      *  Handle Image Upload
      */
     public function handleImageUpload(Request $request){
+
+        $fileNameToStore = '';
+
         if( $request->hasFile('picture') ){
             
             //get filename with extension
@@ -209,7 +223,7 @@ class UsersController extends Controller
             $fileNameToStore = $filename.'_'.time().'.'.$extension;
             
             //upload the image
-            $path = $request->file('picture')->storeAs('public/users' , $fileNameToStore);
+            $path = $request->file('picture')->storeAs('users', $fileNameToStore, 'public_uploads');
         }
         /**
          *  return the file name so we can add it to database.

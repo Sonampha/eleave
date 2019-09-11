@@ -25,7 +25,7 @@ class ReportsController extends Controller
      */
     public function index()
     {
-        $employees = Employee::Paginate(4);
+        $employees = Employee::Paginate(20);
         return view('reports.index')->with('employees',$employees);
     }
 

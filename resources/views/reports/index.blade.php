@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="container">
-    <h4 class="grey-text text-darken-1">Generate Report</h4>
+    <h4 class="grey-text text-darken-2 center">Generate Report</h4>
     <div class="card-panel">
         <div class="row mb-0">
             <form action="{{route('reports.make')}}" method="POST">
@@ -37,8 +37,8 @@
                         <th>ID</th>
                         <th>Image</th>
                         <th>Name</th>
-                        <th>Department</th>
-                        <th>Division</th>
+                        <th>Job Title</th>
+                        <th>Department</th>                        
                         <th>Join Date</th>
                         <th>Options</th>
                     </tr>
@@ -52,9 +52,9 @@
                                 <td>
                                 <img class="emp-img" src="{{asset('storage/employee_images/'.$employee->picture)}}">
                                 </td>
-                                <td>{{$employee->first_name}} {{$employee->last_name}}</td>
-                                <td>{{$employee->empDepartment->dept_name}}</td>
-                                <td>{{$employee->empDivision->division_name}}</td>
+                                <td>{{$employee->staff_name}}</td>
+                                <td>{{$employee->empJobTitle->job_name}}</td>
+                                <td>{{$employee->empDepartment->dept_name}}</td>                  
                                 <td>{{$employee->join_date}}</td>
                                 <td>
                                 <a href="{{route('employees.show',$employee->id)}}" class="btn btn-small btn-floating waves=effect waves-light teal lighten-2"><i class="material-icons">list</i></a>

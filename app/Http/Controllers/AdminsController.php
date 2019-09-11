@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Admin;
-use App\TblUsersProfile;
+use App\UserType;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,10 +41,10 @@ class AdminsController extends Controller
      */
     public function create()
     {
-        $tbl_users_profile = TblUsersProfile::all();
+        $user_types = UserType::all();
         return view('admin.create')
             ->with([
-                'tbl_users_profile'    =>  $tbl_users_profile
+                'user_types'    =>  $user_types
             ]);
     }
 
@@ -72,11 +72,11 @@ class AdminsController extends Controller
     public function edit($id)
     {
         $admin = Admin::find($id);
-        $tbl_users_profile = TblUsersProfile::all();
+        $user_types = UserType::all();
         return view('admin.edit')
             ->with([
                 'admin' => $admin,
-                'tbl_users_profile'    =>  $tbl_users_profile
+                'user_types'    =>  $user_types
             ]);
     }
 

@@ -21,8 +21,8 @@
                             </div>
                             <div class="input-field col s12 m6 l4 xl4">
                                 <select name="options" id="options">
-                                    <option value="first_name">First Name</option>
-                                    <option value="last_name">Last Name</option>
+                                    <option value="staff_name">Staff Name</option>
+                                    <option value="staff_id">Staff ID</option>
                                     <option value="email">Email</option>
                                     <option value="address">Address</option>
                                 </select>
@@ -48,40 +48,49 @@
                 <table class="responsive-table col s12 m12 l12 xl12">
                     <thead class="grey-text text-darken-1">
                         <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>Image</th>
                             <th>Name</th>
                             <th>Department</th>
-                            <th>Division</th>
+                            <th>Job Title</th>
                             <th>Join Date</th>
                             <th>Options</th>
                         </tr>
                     </thead>
                     <tbody id="emp-table">
                         <!-- Check if there are any employee to render in view -->
-                        @if($employees->count())
+                        @if($employees->count())                            
                             @foreach($employees as $employee)
                                 <tr>
                                     <td>{{$employee->id}}</td>
                                     <td>
-                                    <img class="emp-img" src="{{asset('storage/employee_images/'.$employee->picture)}}">
+                                    <img class="emp-img" src="{{asset('uploads/employee_images/'.$employee->picture)}}">
                                     </td>
-                                    <td>{{$employee->first_name}} {{$employee->last_name}}</td>
+                                    <td>{{$employee->staff_name}}</td>
                                     <td>{{$employee->empDepartment->dept_name}}</td>
-                                    <td>{{$employee->empDivision->division_name}}</td>
+                                    <td>{{$employee->empJobTitle->job_name}}</td>
                                     <td>{{$employee->join_date}}</td>
                                     <td>
-                                    <a href="{{route('employees.show',$employee->id)}}" class="btn btn-small btn-floating waves=effect waves-light teal lighten-2"><i class="material-icons">list</i></a>
+                                    <div class="row mb-0">
+                                        <div class="col">
+                                            <a href="{{route('employees.show',$employee->id)}}" class="btn btn-small btn-floating waves=effect waves-light teal lighten-2"><i class="material-icons">list</i></a>
+                                        </div>
+                                        @if(Auth::user()->user_type == "ADMIN" || Auth::user()->user_type == "WEB")
+                                        <div class="col">
+                                            <a href="{{route('employees.edit',$employee->id)}}" class="btn btn-floating btn-small waves=effect waves-light orange" title="Edit"><i class="material-icons">mode_edit</i></a>
+                                        </div>
+                                        <div class="col">
+                                            <form class="delete" action="{{route('employees.destroy',$employee->id)}}" method="POST">
+                                            @method('DELETE')
+                                            @csrf()
+                                            <button type="submit" class="btn btn-floating btn-small waves=effect waves-light red"><i class="material-icons">delete</i></button>
+                                            </form>
+                                        </div>
+                                        @endif
+									</div>
                                     </td>
-                                </tr>
+                                </tr>                                
                             @endforeach
-                            @if(isset($search))
-                                <tr>
-                                    <td colspan="4">
-                                        <a href="/employees" class="right">Show All</a>
-                                    </td>
-                                </tr>
-                            @endif
                         @else
                             {{-- if there are no employees then show this message --}}
                             <tr>
@@ -106,4 +115,11 @@
         <i class="large material-icons">add</i>
     </a>
 </div> 
+
+    <script src="{{asset('js/jquery.js')}}"></script>
+    <script>
+        $(".delete").on("submit", function(){
+            return confirm("Are you sure to delete this employee?");
+        });
+    </script>
 @endsection

@@ -18,7 +18,7 @@
                         <thead class="grey-text text-darken-2">
                             <tr>
                                 <th>ID</th>
-                                <th>Department Name</th>
+                                <th>Department</th>
                                 <th>Created at</th>
                                 <th>Updated at</th>
                                 <th>Options</th>
@@ -48,7 +48,7 @@
                                                     {{-- 
                                                         Delete button will navigate us to departments.destroy
                                                      --}}
-                                                    <form action="{{route('departments.destroy',$department->id)}}" method="POST">
+                                                    <form onsubmit="return confirm('Do you really want to delete?');" action="{{route('departments.destroy',$department->id)}}" method="POST">
                                                         {{--
                                                             @method('DELETE') is a hidden input that we need
                                                             to make a Delete request because html doesn't support

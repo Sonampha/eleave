@@ -33,7 +33,7 @@ class DepartmentsController extends Controller
          *  all rows from departments table.
          */
         
-        $departments = Department::orderBy('dept_name','asc')->Paginate(4);
+        $departments = Department::orderBy('dept_name','asc')->Paginate(15);
         
         /**
          *  we can also do orderBy('dept_name,'desc') which means it'll return
@@ -85,7 +85,7 @@ class DepartmentsController extends Controller
          */
         
         $this->validate($request,[
-            'dept_name' => 'required|min:4|unique:departments'
+            'dept_name' => 'required|min:2|unique:departments'
         ]);
 
         /**
@@ -204,7 +204,7 @@ class DepartmentsController extends Controller
         $str = $request->input('search');
         $departments = Department::where( 'dept_name' , 'LIKE' , '%'.$str.'%' )
             ->orderBy('dept_name','asc')
-            ->paginate(4);
+            ->paginate(15);
         return view('sys_mg.departments.index')->with([ 'departments' => $departments ,'search' => true ]);
     }
 }

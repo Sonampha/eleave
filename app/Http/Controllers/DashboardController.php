@@ -13,8 +13,19 @@ use App\Salary;
 //use App\Admin;
 use App\User;
 use Carbon\Carbon;
-use App\TblLeaveType;
+use App\LeaveType;
+use App\ReportingManager;
+use App\Nationality;
+use App\LeaveRecord;
+use App\InLeu;
+use App\AttendanceStatus;
+use App\AttendanceProblem;
+use Auth;
 use DB;
+use App\Mail\LeaveUserMail;
+use App\Mail\AttUserMail;
+use Mail;
+use Validator;
 
 class DashboardController extends Controller
 {
@@ -31,61 +42,218 @@ class DashboardController extends Controller
      * @return View
      */
     public function index(){
-        //get Current date and time
-        $date_current = Carbon::now()->toDateTimeString();
-        //get date and time of previous month
-        /**
-         *  subMonths() means it will subtract the month with
-         *  the given argument.
-         */
-        $prev_date1 = $this->getPrevDate(1);
-        $prev_date2 = $this->getPrevDate(2);
-        $prev_date3 = $this->getPrevDate(3);
-        $prev_date4 = $this->getPrevDate(4);
-
-        /**
-         *  get count of employee between two given dates.
-         */
-        $emp_count_1 = Employee::whereBetween('join_date',[$prev_date1,$date_current])->count();
-        $emp_count_2 = Employee::whereBetween('join_date',[$prev_date2,$prev_date1])->count();
-        $emp_count_3 = Employee::whereBetween('join_date',[$prev_date3,$prev_date2])->count();
-        $emp_count_4 = Employee::whereBetween('join_date',[$prev_date4,$prev_date3])->count();
-
         $t_users = User::all()->count();
         $t_employees = Employee::all()->count();
-        $t_countries = Country::all()->count();
-        $t_states = State::all()->count();
-        $t_cities = City::all()->count();
         $t_departments = Department::all()->count();
-        $t_divisions = Division::all()->count();
-        $t_salaries = Salary::all()->count();
-
-        $tbl_leave_type = TblLeaveType::all();
+        $leave_types = LeaveType::all();
+        $att_statuses = AttendanceStatus::all();
         $current_date = Carbon::now()->toDateTimeString();        
 
         return view('dashboard.index')
             ->with([
-                'emp_count_1'     =>  $emp_count_1,
-                'emp_count_2'     =>  $emp_count_2,
-                'emp_count_3'     =>  $emp_count_3,
-                'emp_count_4'     =>  $emp_count_4,
                 't_employees'     =>  $t_employees,
-                't_countries'     =>  $t_countries,
-                't_cities'        =>  $t_cities,
-                't_states'        =>  $t_states,
-                't_salaries'      =>  $t_salaries,
-                't_divisions'     =>  $t_divisions,
                 't_departments'   =>  $t_departments,
                 't_users'        =>  $t_users,
-                'tbl_leave_type'  =>  $tbl_leave_type,
+                'leave_types'  =>  $leave_types,
+                'att_statuses'  =>  $att_statuses,
                 'current_date'    =>  $current_date
             ]);
     }
 
-    /**
-     *  get the sub month of the given integer
-     */
-    private function getPrevDate($num){
-        return Carbon::now()->subMonths($num)->toDateTimeString();
-    }
+   public function getStaff(Request $request) {
+        $staff_id = $request->staff_id;
+        $leave_type = $request->leave_type;        
+
+        $sum_token = LeaveRecord::where('staff_id', $staff_id)
+                   ->where('leave_type', $leave_type)
+                   ->where('status','!=','Rejected')
+                   ->where('status','!=','Cancelled')
+                   ->sum('day_off');  
+
+        $sum_inleu = InLeu::where('staff_id', $staff_id)->sum('inleu_day');       
+
+        $employees = Employee::where('staff_id', $staff_id)->first();
+        $work_day = $employees->work_day;
+        $manager_name = $employees->empReportingManager->manager_name;
+        $ann_leave = $employees->ann_leave;
+        $sick_leave = $employees->sick_leave;
+        $mat_leave = $employees->mat_leave;
+        $hop_leave = $employees->hop_leave;
+        $unp_leave = $employees->unp_leave;
+        $spec_leave = $employees->spec_leave;
+        $carry_leave = $employees->carry_leave; 
+              
+      return response()->json([        
+        'work_day'=>$work_day,
+        'manager_name'=>$manager_name,
+        'ann_leave'=>$ann_leave,
+        'sick_leave'=>$sick_leave,
+        'mat_leave'=>$mat_leave,
+        'hop_leave'=>$hop_leave,
+        'unp_leave'=>$unp_leave,
+        'spec_leave'=>$spec_leave,
+        'carry_leave'=>$carry_leave,
+        'in_leu'=>$sum_inleu,
+        'sum_token'=>$sum_token,
+        ]);
+   }
+
+   public function postLeave(Request $request){
+        $staff_id = Auth::user()->username;
+        $employee = DB::table('employees')
+                ->join('reporting_managers', 'employees.reporting_manager_id', '=', 'reporting_managers.id')
+                ->where('employees.staff_id',$staff_id)
+                ->select('employees.id','employees.staff_id','employees.staff_name', 'reporting_managers.manager_name', 'reporting_managers.email','reporting_managers.cc_email','reporting_managers.dd_email','reporting_managers.ee_email')
+                ->first();
+
+        $data = [
+                'my_name' => $employee->staff_name,
+                'man_name' => $employee->manager_name,
+                'my_email' => Auth::user()->email,
+                'man_email' => $employee->email,
+				'cc_email' => $employee->cc_email,
+				'dd_email' => $employee->dd_email,
+				'ee_email' => $employee->ee_email,
+                'leave_type' => $request->input('leave_type'),
+                'date_from' => $request->input('date_from'),
+                'date_to' => $request->input('date_to'),
+                'day_off' => floatval($request->input('leave_applied')),
+                'unit' => $request->input('daytype'),
+            ];
+			
+        /* Check if date already exist */
+        $date_from   = date('Y-m-d', strtotime(str_replace('-', '/', $request->input('date_from'))));
+        $from_exist = LeaveRecord::where('staff_id',$staff_id)->where('date_from',$date_from)->where('status','Pending')->orWhere('staff_id',$staff_id)->where('date_from',$date_from)->where('status','Approved')->get();
+
+        $to_exist = LeaveRecord::where('staff_id',$staff_id)->where('date_to',$date_from)->where('status','Pending')->orWhere('staff_id',$staff_id)->where('date_to',$date_from)->where('status','Approved')->get();
+
+        if(count($from_exist) > 0 || count($to_exist) > 0){
+            return response()->json(['info'=>'Sorry, you cannot apply twice with the same date.']);
+        }
+       
+        $staff_name = $employee->staff_name;
+        $manager_name = $employee->manager_name;
+        $date_from   = date('Y-m-d', strtotime(str_replace('-', '/', $request->input('date_from'))));
+        $date_to   = date('Y-m-d', strtotime(str_replace('-', '/', $request->input('date_to'))));
+
+        if($request->file('select_file') == ''){
+
+            /* Save Data to New Leave Record*/
+            $leave_record = new LeaveRecord();
+            $leave_record->staff_id = $staff_id;
+            $leave_record->staff_name = $staff_name;
+            $leave_record->leave_type = $request->input('leave_type');        
+            $leave_record->date_from   = $date_from;
+            $leave_record->date_to   = $date_to;
+            $leave_record->day_off = floatval($request->input('leave_applied'));
+            $leave_record->unit = $request->input('daytype');
+            $leave_record->reason = $request->input('reason');
+            $leave_record->approver = $manager_name;
+            $leave_record->status = 'Pending';
+            $leave_record->request_date = Carbon::now()->toDateTimeString();
+            $leave_record->status_date = NULL;   
+            $leave_record->attach_name = NULL;  
+            $leave_record->attach_ext = NULL; 
+
+            if($leave_record->save()){
+                Mail::send(new LeaveUserMail($data));
+                return response()->json(['msg'=>'Your leave request has been created successfully.']);            
+            }else{
+                return response()->json('msg','Failed! to create leave request.');
+            }
+
+        }else{
+            $validation = Validator::make($request->all(), [
+                'select_file' => 'required|mimes:jpg,jpeg,png,pdf|max:50000'
+            ]);
+
+            if($validation->passes()){
+
+                /* Upload File to Public Folder */
+                $image = $request->file('select_file');
+                $attach_ext = $image->getClientOriginalExtension();
+                $attach_name = $staff_id.'_'.time().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('uploads/attach_folder'),$attach_name);
+
+                /* Save Data to New Leave Record*/
+                $leave_record = new LeaveRecord();
+                $leave_record->staff_id = $staff_id;
+                $leave_record->staff_name = $staff_name;
+                $leave_record->leave_type = $request->input('leave_type');        
+                $leave_record->date_from   = $date_from;
+                $leave_record->date_to   = $date_to;
+                $leave_record->day_off = floatval($request->input('leave_applied'));
+                $leave_record->unit = $request->input('daytype');
+                $leave_record->reason = $request->input('reason');
+                $leave_record->approver = $manager_name;
+                $leave_record->status = 'Pending';
+                $leave_record->request_date = Carbon::now()->toDateTimeString();
+                $leave_record->status_date = NULL;
+                $leave_record->attach_name = $attach_name;  
+                $leave_record->attach_ext = $attach_ext;      
+
+                if($leave_record->save()){
+                    Mail::send(new LeaveUserMail($data));
+                    return response()->json(['msg'=>'Your leave request has been created successfully.']);            
+                }else{
+                    return response()->json('msg','Failed! to create leave request.');
+                }
+            }else{
+                return response()->json(['info'=>$validation->errors()->all()]);
+            }
+
+        }
+
+   }
+
+   public function postAttendance(Request $request){
+
+        /* Get Data from Ajax and Form */
+        $staff_id = Auth::user()->username;
+        $employee = DB::table('employees')
+                ->join('reporting_managers', 'employees.reporting_manager_id', '=', 'reporting_managers.id')
+                ->where('employees.staff_id',$staff_id)
+                ->select('employees.id','employees.staff_id','employees.staff_name', 'reporting_managers.manager_name', 'reporting_managers.email', 'reporting_managers.cc_email')
+                ->first();
+
+        $data = [               
+                'my_name' => $employee->staff_name,
+                'man_name' => $employee->manager_name,
+                'my_email' => Auth::user()->email,
+                'man_email' => $employee->email,
+				'cc_email' => $employee->cc_email,
+                'att_status' => $request->att_status,
+                'att_date' => $request->att_date,
+            ];
+
+        $att_date   = date('Y-m-d', strtotime(str_replace('-', '/', $request->att_date)));
+
+        if($att_date == '1970-01-01' || $att_date == ''){             
+            return response()->json(['info'=>'Sorry, date cannot be empty!']);
+        }
+
+        if($request->att_reason == ''){
+            return response()->json(['info'=>'Sorry, please give us your reason.']);
+        }
+
+        /* Save Data to New Leave Record*/
+
+        $att_problems = new AttendanceProblem();
+        $att_problems->staff_id = $staff_id;
+        $att_problems->att_date   = $att_date;
+        $att_problems->att_status   = $request->att_status;   
+        $att_problems->att_reason = $request->att_reason;
+        $att_problems->approver = $employee->manager_name;
+        $att_problems->status = 'Pending';
+        $att_problems->request_date = Carbon::now()->toDateTimeString();
+        $att_problems->status_date = NULL;
+
+        if($att_problems->save()){ 
+            Mail::send(new AttUserMail($data));           
+            return response()->json(['msg'=>'Your attendance request has been created successfully.']);
+        }else{
+            return response()->json('info','Failed! to create attendance request.');
+        }       
+   }
+
 }

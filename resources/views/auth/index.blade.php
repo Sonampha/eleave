@@ -2,9 +2,9 @@
 @section('content')
 <section>
     <div class="container row">
-        <div class="col m6 offset-m3 l6 offset-l3 xl4 offset-xl4 s10 offset-s1 card card-login z-depth-4">
+        <div class="col m6 offset-m3 l6 offset-l3 xl6 offset-xl4 s10 offset-s1 card card-login z-depth-4">
             <div class="card-title card-title-login gradient-bg lighten-2 black-text">
-                <h5 class="center flow-text">Login to E-Leave</h5>
+                <h5 class="center flow-text">HR Management System - Login</h5>
             </div>
             <div class="card-content">
                 <form action="{{ route('auth.authenticate') }}" method="POST">
@@ -35,6 +35,7 @@
                     <br>
                 </form>
             </div>
+			
         </div>
     </div>
 </section>

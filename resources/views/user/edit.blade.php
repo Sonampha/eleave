@@ -12,21 +12,15 @@
                         <div class="row">
                             <div class="input-field col s12 m8 offset-m2 l8 offset-l2 xl8 offset-xl2">
                                 <i class="material-icons prefix">person_outline</i>
-                                <input type="text" name="first_name" id="first_name" value="{{Request::old('first_name') ? : $user->first_name }}">
-                                <label for="first_name">First Name</label>
-                                <span class="{{$errors->has('first_name') ? 'helper-text red-text' : ''}}">{{$errors->first('first_name')}}</span>
-                            </div>
-                            <div class="input-field col s12 m8 offset-m2 l8 offset-l2 xl8 offset-xl2">
-                                <i class="material-icons prefix">person_outline</i>
-                                <input type="text" name="last_name" id="last_name" value="{{Request::old('last_name') ? : $user->last_name }}">
-                                <label for="last_name">Last Name</label>
-                                <span class="{{$errors->has('last_name') ? 'helper-text red-text' : ''}}">{{$errors->first('last_name')}}</span>
+                                <input type="text" name="full_name" id="full_name" value="{{Request::old('full_name') ? : $user->full_name }}">
+                                <label for="full_name">Full Name</label>
+                                <span class="{{$errors->has('full_name') ? 'helper-text red-text' : ''}}">{{$errors->first('full_name')}}</span>
                             </div>
                             <div class="input-field col s12 m8 offset-m2 l8 offset-l2 xl8 offset-xl2">
                                 <i class="material-icons prefix">person</i>
-                                <input type="text" name="username" id="username" value="{{Request::old('username') ? : $user->username }}">
-                                <label for="username">Username</label>
-                                <span class="{{$errors->has('username') ? 'helper-text red-text' : ''}}">{{$errors->first('username')}}</span>
+                                <input type="text" name="staff_id" id="staff_id" value="{{Request::old('staff_id') ? : $user->username }}">
+                                <label for="staff_id">Staff ID</label>
+                                <span class="{{$errors->has('staff_id') ? 'helper-text red-text' : ''}}">{{$errors->first('staff_id')}}</span>
                             </div>
                             <div class="input-field col s12 m8 offset-m2 l8 offset-l2 offset-l2 xl8 offset-xl2">
                                 <i class="material-icons prefix">lock</i>
@@ -39,25 +33,25 @@
                                 <input type="email" name="email" id="email" value="{{Request::old('email') ? : $user->email }}">
                                 <label for="email">Email</label>
                                 <span class="{{$errors->has('email') ? 'helper-text red-text' : ''}}">{{$errors->has('email') ? $errors->first('email') : ''}}</span>
-                            </div>
+                            </div>                            
                             <div class="input-field col s12 m8 offset-m2 l8 offset-l2 xl8 offset-xl2">
                                 <i class="material-icons prefix">vpn_key</i>
-                                <select name="user_type" class="validate" required>              
-                                    @foreach($tbl_users_profile as $user_type)
-                                    <option {{($user->user_type == $user_type->USER_RIGHT) ? 'selected':''}} value="{{ $user_type->USER_RIGHT }}">
-                                        {{ $user_type->USER_RIGHT }}
+                                <select name="user_type" id="user_type" class="validate" required>
+                                    @foreach($user_types as $user_type)
+                                    <option {{($user->user_type == $user_type->user_type) ? 'selected':''}} value="{{ $user_type->user_type }}">
+                                        {{ $user_type->user_type }}
                                     </option>
                                     @endforeach
                                 </select>
                                 <label>User Type</label>
-                            </div>
+                            </div>                            
                             <div class="file-field input-field col s12 m8 offset-m2 l8 offset-l2 xl8 offset-xl2">
                                 <div class="btn">
                                     <span>Picture</span>
                                     <input type="file" name="picture">
                                 </div>
                                 <div class="file-path-wrapper">
-                                    <input class="file-path validate" type="text" value="{{old('picture') ? : $user->picture }}">
+                                    <input class="file-path validate" type="text" value="{{Request::old('picture') ? : '' }}">
                                     <span class="{{$errors->has('picture') ? 'helper-text red-text' : ''}}">{{$errors->has('picture') ? $errors->first('picture') : ''}}</span>
                                 </div>
                             </div>
@@ -75,4 +69,14 @@
             </div>
         </div>
     </div>
+<script src="{{asset('js/jquery.js')}}"></script>
+<script>
+    $(document).ready(function(){  
+        var user_type = '<?php echo Auth::user()->user_type;?>';
+        if(user_type != 'ADMIN'){
+            $('#user_type').attr('disabled','disabled');
+			//$('#staff_id').attr('disabled','disabled');
+        }
+    });
+</script>
 @endsection

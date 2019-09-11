@@ -27,40 +27,30 @@
             <thead class="grey-text text-darken-1">
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
+                    <th>Staff ID</th>
+                    <th>Staff Name</th>
                     <th>Email</th>
-                    <th>Phone</th>
-                    <th>Zip Code</th>
-                    <th>Country</th>
-                    <th>Salary</th>
-                    <th>City</th>
-                    <th>Salary</th>
+                    <th>Gender</th>                    
+                    <th>Job Title</th>
                     <th>Department</th>
-                    <th>Division</th>
-                    <th>age</th>
-                    <th>address</th>
-                    <th>Join Date</th>
-                    <th>Birth Date</th>
+                    <th>Location</th>
+                    <th>Reporting Manager</th>                    
+                    <th>Join Date</th>                    
                 </tr>
             </thead>
             <tbody>
                 @foreach($employees as $employee)
                     <tr>
                         <td>{{$employee->id}}</td>
-                        <td>{{$employee->first_name}} {{$employee->last_name}}</td>
+                        <td>{{$employee->staff_id}}</td>
+                        <td>{{$employee->staff_name}}</td>
                         <td>{{$employee->email}}</td>
-                        <td>{{$employee->phone}}</td>
-                        <td>{{$employee->empCity->zip_code}}</td>
-                        <td>{{$employee->empCountry->country_name}}</td>
-                        <td>{{$employee->empState->state_name}}</td>
-                        <td>{{$employee->empCity->city_name}}</td>
-                        <td>{{$employee->empSalary->s_amount}}</td>
-                        <td>{{$employee->empDepartment->dept_name}}</td>
-                        <td>{{$employee->empDivision->division_name}}</td>
-                        <td>{{$employee->age}}</td>
-                        <td>{{$employee->address}}</td>
-                        <td>{{$employee->join_date}}</td>
-                        <td>{{$employee->birth_date}}</td>
+                        <td>{{$employee->empGender->gender_name}}</td>                        
+                        <td>{{$employee->empJobTitle->job_name}}</td>
+                         <td>{{$employee->empDepartment->dept_name}}</td>
+                        <td>{{$employee->empLocation->location_name}}</td>
+                        <td>{{$employee->empReportingManager->manager_name}}</td>                      
+                        <td>{{$employee->join_date}}</td>                        
                     </tr>
                 @endforeach
             </tbody>

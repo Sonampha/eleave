@@ -3442,7 +3442,7 @@ table span.badge {
 
 @media only screen and (min-width: 993px) {
   .container {
-    width: 70%;
+    width: 90%;
   }
 }
 
@@ -3484,7 +3484,7 @@ table span.badge {
   float: left;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  padding: 0 0.75rem;
+  padding: 0 0.2rem;
   min-height: 1px;
 }
 
@@ -4106,8 +4106,7 @@ table span.badge {
     right: auto;
   }
   .row .col.xl4 {
-    width: 50%;
-    /*width: 33.3333333333%;*/
+    width: 33.3333333333%;
     margin-left: auto;
     left: auto;
     right: auto;
@@ -4558,6 +4557,7 @@ h6 {
   font-size: 1.15rem;
   line-height: 110%;
   margin: 0.7666666667rem 0 0.46rem 0;
+  font-weight: bold;
 }
 
 em {
@@ -5904,6 +5904,7 @@ button.btn-floating {
 .sidenav .collapsible-body li a,
 .sidenav.fixed .collapsible-body li a {
   padding: 0 23.5px 0 31px;
+  margin-left: 25px;
 }
 
 .collapsible.popout {
@@ -7711,12 +7712,12 @@ input[type=range].focused:focus:not(.active)::-ms-thumb {
 
 .sidenav .collapsible-body > ul:not(.collapsible) > li.active,
 .sidenav.sidenav-fixed .collapsible-body > ul:not(.collapsible) > li.active {
-  background-color: #ee6e73;
+  background-color: #FFE88C;
 }
 
 .sidenav .collapsible-body > ul:not(.collapsible) > li.active a,
 .sidenav.sidenav-fixed .collapsible-body > ul:not(.collapsible) > li.active a {
-  color: #fff;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .sidenav .collapsible-body {

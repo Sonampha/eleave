@@ -30,7 +30,7 @@ header, main, footer {
     font-weight:bold;
 }
 .mt{
-    margin-top:50px !important;
+    margin-top:30px !important;
 }
 
 .pl-15{
@@ -139,6 +139,7 @@ main {
 }
 
 .main-login{
+	margin-top:-80px;
     width: 100%;
     min-height: 90vh;
     background:linear-gradient(180deg,#FFCC00,#FFDB4C,#FFE88C,#FFF5CC,rgba(255, 245, 204, 0.5),rgba(255, 255, 255, 0.1));

@@ -44,9 +44,9 @@
                                 <i class="material-icons prefix">vpn_key</i>
                                 <select name="user_type" class="validate" required>
                                     <option value="" disabled selected>User Types</option>
-                                    @foreach($tbl_users_profile as $user_type)
-                                    <option value="{{ $user_type->USER_RIGHT }}">
-                                        {{ $user_type->USER_RIGHT }}
+                                    @foreach($user_types as $user_type)
+                                    <option value="{{ $user_type->user_type }}">
+                                        {{ $user_type->user_type }}
                                     </option>
                                     @endforeach
                                 </select>

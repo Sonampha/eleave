@@ -22,9 +22,8 @@
                             </div>
                             <div class="input-field col s12 m6 l4 xl4">
                                 <select name="options" id="options">
-                                    <option value="first_name">First Name</option>
-                                    <option value="last_name">Last Name</option>
-                                    <option value="username">Username</option>
+                                    <option value="full_name">Staff Name</option>
+                                    <option value="username">Staff ID</option>
                                     <option value="email">Email</option>
                                 </select>
                                 <label for="options">Search by:</label>
@@ -49,11 +48,12 @@
                     <table class="responsive-table col s12 m12 l12 xl12">
                         <thead class="grey-text text-darken-2">
                             <tr>
-                                <th>ID</th>
+                                <th>No.</th>
                                 <th>Picture</th>
-                                <th>Name</th>
-                                <th>Username</th>
+                                <th>Full Name</th>
+                                <th>Staff ID</th>
                                 <th>Email</th>
+								<th>User Type</th>
                                 <th>Options</th>
                             </tr>
                         </thead>
@@ -63,23 +63,26 @@
                                     <tr>
                                         <td>{{$user->id}}</td>
                                         <td>
-                                            <img class="emp-img" src="{{asset('storage/users/'.$user->picture)}}">
+                                            <img class="emp-img" src="{{asset('uploads/users/'.$user->picture)}}">
                                         </td>
-                                        <td>{{$user->first_name}} {{$user->last_name}}</td>
+                                        <td>{{$user->full_name}}</td>
                                         <td>{{$user->username}}</td>
                                         <td>{{$user->email}}</td>
+										<td>{{$user->user_type}}</td>
                                         <td>
                                             <div class="row mb-0">
                                                 <div class="col">
                                                     <a href="{{route('users.edit',$user->id)}}" class="btn btn-floating btn-small waves=effect waves-light orange"><i class="material-icons">mode_edit</i></a>
                                                 </div>
+                                                @if(Auth::user()->user_type == "ADMIN" || Auth::user()->user_type == "WEB")
                                                 <div class="col">
-                                                    <form action="{{route('users.destroy',$user->id)}}" method="POST">
+                                                    <form class="delete" action="{{route('users.destroy',$user->id)}}" method="POST">
                                                         @method('DELETE')
                                                         @csrf()
                                                         <button type="submit" class="btn btn-floating btn-small waves=effect waves-light red"><i class="material-icons">delete</i></button>
-                                                    </form>
+                                                       </form>
                                                 </div>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -119,4 +122,11 @@
         <i class="large material-icons">add</i>
     </a>
 </div> 
+
+    <script src="{{asset('js/jquery.js')}}"></script>
+    <script>
+        $(".delete").on("submit", function(){
+            return confirm("Are you sure to delete this user?");
+        });
+    </script>
 @endsection
